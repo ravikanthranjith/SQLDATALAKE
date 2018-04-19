@@ -1,0 +1,57 @@
+﻿DECLARE @PostCodePath               string="/SourceData/PostCodes/Postcodes.csv";
+DECLARE @PostCodeDgPath             string="/SourceData/PostCodeDg/{filename}.csv";
+DECLARE @PostCodeDistrictsPath      string="/SourceData/Districts/Districts.csv";
+DECLARE @OutputPath                 string="/output/DistrictTotals.csv";
+                            
+
+@PostCodes= EXTRACT postcode string,
+                    DistrictCode string,
+                    latitude float,
+                    longitude float
+    FROM @PostCodePath
+    USING Extractors.Csv(skipFirstNRows:1);
+
+@PostCodeDemographics = EXTRACT
+                            Postcode string,Total int,Males int,Females int,Occupied_Households int,
+                            filename string
+                        FROM @PostCodeDgPath
+                                 USING Extractors.Csv(skipFirstNRows:1);
+
+@Districts = EXTRACT DistrictCode string,District string
+    FROM @PostCodeDistrictsPath
+    USING Extractors.Csv(skipFirstNRows:1, quoting:true);
+
+// PostCode string,
+//    DistrictCode string,
+//    Latitute float,
+//    Longitude float,
+INSERT INTO PostCodes(PostCode,DistrictCode,Latitute,Longitude)
+SELECT 
+postcode 
+,DistrictCode  
+,latitude 
+,longitude FROM @PostCodes;
+
+INSERT INTO PostCodesDemographics
+(
+    Postcode,
+    Total,
+    Males,
+    Females,
+    OccupiedHouseholds
+)
+SELECT Postcode,
+       Total,
+       Males,
+       Females,
+       Occupied_Households
+FROM @PostCodeDemographics;
+
+INSERT INTO Districts
+(
+    DistrictCode,
+    District
+)
+SELECT DistrictCode,
+       District
+FROM @Districts;

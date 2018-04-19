@@ -1,0 +1,15 @@
+﻿USE DATABASE UKPostCodes;
+USE SCHEMA PostcodeData;
+
+DROP TABLE IF EXISTS PostCodes;
+CREATE TABLE  IF NOT EXISTS PostCodes
+(
+    PostCode string,
+    DistrictCode string,
+    Latitute float,
+    Longitude float,
+    INDEX idx_Postcodes
+    CLUSTERED (PostCode ASC) 
+    DISTRIBUTED BY HASH(PostCode)
+
+);

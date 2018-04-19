@@ -1,0 +1,80 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>b35720ec-ff5a-4912-b837-974589b2c38f</ProjectGuid>
+    <OutputType>File</OutputType>
+    <AssemblyName>Algebra.xml</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Name>GovPostCodes</Name>
+    <RootNamespace>GovPostCodes</RootNamespace>
+    <RuntimeVersion>default</RuntimeVersion>
+    <OutputStreamPath>C:\Users\r.narayanabhatla\AppData\Local\USQLDataRoot</OutputStreamPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Script Include="010 CREATE UKPostCodes Database.usql" />
+    <Script Include="020 CREATE NEW SCHEMA.usql" />
+    <Script Include="030 CREATE POSTCODES TABLE.usql" />
+    <Script Include="040 CREATE POSTCODES DEMOGRAPHICS TABLE.usql" />
+    <Script Include="050 CREATE DISTRICTS TABLE.usql" />
+    <Script Include="060 Populate Tables.usql" />
+    <Script Include="DistrictsTotalsReport.usql" />
+    <ScriptCode Include="010 CREATE UKPostCodes Database.usql.cs">
+      <DependentUpon>010 CREATE UKPostCodes Database.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="020 CREATE NEW SCHEMA.usql.cs">
+      <DependentUpon>020 CREATE NEW SCHEMA.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="030 CREATE POSTCODES TABLE.usql.cs">
+      <DependentUpon>030 CREATE POSTCODES TABLE.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="040 CREATE POSTCODES DEMOGRAPHICS TABLE.usql.cs">
+      <DependentUpon>040 CREATE POSTCODES DEMOGRAPHICS TABLE.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="050 CREATE DISTRICTS TABLE.usql.cs">
+      <DependentUpon>050 CREATE DISTRICTS TABLE.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="060 Populate Tables.usql.cs">
+      <DependentUpon>060 Populate Tables.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="DistrictsTotalsReport.usql.cs">
+      <DependentUpon>DistrictsTotalsReport.usql</DependentUpon>
+    </ScriptCode>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SourceData" />
+    <Folder Include="SourceData\Districts" />
+    <Folder Include="SourceData\PostCodes" />
+    <Folder Include="SourceData\PostCodeDg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SourceData\Districts\Districts.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="SourceData\PostCodeDg\Postcode_Estimates_1_A_F.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="SourceData\PostCodeDg\Postcode_Estimates_1_G_L.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="SourceData\PostCodeDg\Postcode_Estimates_1_M_R.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="SourceData\PostCodeDg\Postcode_Estimates_1_S_Z.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="SourceData\PostCodes\Postcodes.csv">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(AppData)\Microsoft\DataLake\MsBuild\1.0\Usql.targets" />
+</Project>

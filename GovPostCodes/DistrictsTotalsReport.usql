@@ -1,0 +1,41 @@
+﻿DECLARE @PostCodePath               string="/SourceData/PostCodes/Postcodes.csv";
+DECLARE @PostCodeDgPath             string="/SourceData/PostCodeDg/{filename}.csv";
+DECLARE @PostCodeDistrictsPath      string="/SourceData/Districts/Districts.csv";
+DECLARE @OutputPath                 string="/output/DistrictTotals.csv";
+                            
+
+@PostCodes= EXTRACT postcode string,
+                    DistrictCode string,
+                    latitude float,
+                    longitude float
+    FROM @PostCodePath
+    USING Extractors.Csv(skipFirstNRows:1);
+
+@PostCodeDemographics = EXTRACT
+                            Postcode string,Total int,Males int,Females int,Occupied_Households int,
+                            filename string
+                        FROM @PostCodeDgPath
+                                 USING Extractors.Csv(skipFirstNRows:1);
+
+@Districts = EXTRACT DistrictCode string,District string
+    FROM @PostCodeDistrictsPath
+    USING Extractors.Csv(skipFirstNRows:1, quoting:true);
+
+@MergeData =
+    SELECT d.District,
+       SUM(pd.Total) AS total,
+       SUM(pd.Males) AS males,
+       SUM(pd.Females) AS females,
+       SUM(pd.Occupied_Households) AS OccupiedHouseholds
+    FROM @PostCodes AS  p
+         INNER JOIN @PostCodeDemographics AS pd
+         ON p.postcode==pd.Postcode
+         INNER JOIN @Districts AS d
+         ON d.DistrictCode==p.DistrictCode
+        GROUP BY d.District;
+         
+         OUTPUT @MergeData 
+         TO @OutputPath  
+         ORDER BY District ASC 
+         USING Outputters.Csv(outputHeader:true,quoting:true);
+                      

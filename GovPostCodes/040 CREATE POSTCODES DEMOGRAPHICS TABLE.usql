@@ -1,0 +1,18 @@
+﻿USE DATABASE UKPostCodes;
+USE SCHEMA PostcodeData;
+
+DROP TABLE IF EXISTS PostCodesDemographics;
+CREATE TABLE  IF NOT EXISTS PostCodesDemographics
+(
+    Postcode string,
+    Total int,
+    Males int,
+    Females int,
+    OccupiedHouseholds int
+
+);
+
+CREATE CLUSTERED INDEX idx_PostCodeDemographics
+ON PostCodesDemographics(Postcode ASC)
+DISTRIBUTED BY HASH(Postcode);
+
