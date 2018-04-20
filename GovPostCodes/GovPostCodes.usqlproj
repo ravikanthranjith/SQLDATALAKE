@@ -27,6 +27,7 @@
     <Script Include="040 CREATE POSTCODES DEMOGRAPHICS TABLE.usql" />
     <Script Include="050 CREATE DISTRICTS TABLE.usql" />
     <Script Include="060 Populate Tables.usql" />
+    <Script Include="070 PostCode Area Count.usql" />
     <Script Include="DistrictsTotalsReport.usql" />
     <ScriptCode Include="010 CREATE UKPostCodes Database.usql.cs">
       <DependentUpon>010 CREATE UKPostCodes Database.usql</DependentUpon>
@@ -45,6 +46,9 @@
     </ScriptCode>
     <ScriptCode Include="060 Populate Tables.usql.cs">
       <DependentUpon>060 Populate Tables.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="070 PostCode Area Count.usql.cs">
+      <DependentUpon>070 PostCode Area Count.usql</DependentUpon>
     </ScriptCode>
     <ScriptCode Include="DistrictsTotalsReport.usql.cs">
       <DependentUpon>DistrictsTotalsReport.usql</DependentUpon>
